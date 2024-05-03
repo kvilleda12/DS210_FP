@@ -32,12 +32,12 @@ fn read_graph(filename: &str) -> io::Result<Vec<Vec<usize>>> {
 fn main() -> io::Result<()> {
     let graph = read_graph("amazon0312.txt")?;
 
-    // Run shortest path from the 1st to the 40,000 node
+    // Run shortest path from the 1st to the 50,000 node
     if graph.len() > 50000 {
-        if let Some(distance) = shortest_path(&graph, 0, 39999) { 
-            println!("Shortest path from node 1 to node 40,000 is {} steps.", distance);
+        if let Some(distance) = shortest_path(&graph, 0, 49999) { 
+            println!("Shortest path from node 1 to node 50,000 is {} steps.", distance);
         } else {
-            println!("No path found from node 1 to node 40,000.");
+            println!("No path found from node 1 to node 50,000.");
         }
     } 
     // Calculate percentage of nodes that are reachble within a sample size of 10,000
@@ -66,6 +66,7 @@ fn main() -> io::Result<()> {
     Ok(())
 }
 
+//for test methods
 fn create_test_graph() -> Vec<Vec<usize>> {
     let mut graph = vec![vec![]; 169]; 
 
@@ -104,5 +105,11 @@ mod tests {
         let avg_degrees = algo::average_degrees_of_separation(&graph, 10);
         assert!(avg_degrees.is_some());
         println!("Average degrees of separation: {:?}", avg_degrees);
+    }
+    #[test]
+    fn test_reachable_within_steps() {
+        let graph = create_test_graph();
+        let reachable = algo::reachable_within_steps(&graph, 0, 2);
+        assert_eq!(reachable, 23);
     }
 }
